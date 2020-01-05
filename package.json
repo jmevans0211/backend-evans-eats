@@ -2,7 +2,7 @@
   "name": "backend-evans-eats",
   "version": "1.0.0",
   "description": "Evans Eats backend",
-  "main": "data.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,8 +18,12 @@
   },
   "homepage": "https://github.com/jmevans0211/backend-evans-eats#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jest": "^24.9.0",
     "knex": "^0.20.6",
+    "node": "^13.3.0",
+    "nodemon": "^2.0.2",
     "pg": "^7.17.0"
   }
 }
