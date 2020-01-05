@@ -55,8 +55,7 @@ app.post('/api/v1/recipes/:id', async (request, response) => {
     'ingredients',
     'instructions',
     'notes',
-    'image_url',
-    'category'
+    'image_url'
   ];
 
   for (let requiredParameter of parameters) {
