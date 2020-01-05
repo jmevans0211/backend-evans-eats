@@ -45,6 +45,43 @@ app.get('/api/v1/recipes/:id', async (request, response) => {
   }
 })
 
+app.post('/api/v1/recipes/:id', async (request, response) => {
+  //id refers to the category id...?
+  const recipe = request.body;
+  console.log('request.body---->', recipe)
+  const parameters = [
+    'recipe_name',
+    'approx_time',
+    'ingredients',
+    'instructions',
+    'notes',
+    'image_url',
+    'category'
+  ];
+
+  for (let requiredParameter of parameters) {
+    if (!recipe[requiredParameter]) {
+      response.status(422).json({
+        error: `POST failed, missing required parameters: ${parameters.join(
+          ', '
+        )}. Missing: ${requiredParameter}`
+      });
+      return;
+    }
+  }
+
+  try {
+    console.log('in TRY')
+    const newRecipe = await database('recipes').insert(recipe, 'id');
+    console.log('newRecipe---->', newRecipe)
+    response.status(201).json({ id: newRecipe[0] });
+  } catch (error) {
+    console.log('in CATCH')
+    response.status(500).json({ error: 'Internal server error' });
+  }
+})
+
+
 // get recipes based off of category
 // get individual recipe??
 // post new recipe
