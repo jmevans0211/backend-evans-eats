@@ -46,7 +46,7 @@ app.get('/api/v1/recipes/:id', async (request, response) => {
 })
 
 app.post('/api/v1/recipes/:id', async (request, response) => {
-  //id refers to the category id...?
+
   const recipe = request.body;
   const parameters = [
     'recipe_name',
@@ -96,9 +96,5 @@ app.delete('/api/v1/recipe/:id', async (request, response) => {
     response.status(500).json(error);
   }
 });
-// get recipes based off of category DONE
-// get individual recipe?? DONE
-// post new recipe DONE
-// delete recipe
 
 module.exports = app;
