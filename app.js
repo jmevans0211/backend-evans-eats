@@ -77,7 +77,25 @@ app.post('/api/v1/recipes/:id', async (request, response) => {
   }
 });
 
-app.
+app.delete('/api/v1/recipe/:id', async (request, response) => {
+  const { id } = request.params;
+
+  try {
+    const recipe = await database('recipes')
+      .where('id', id)
+      .del();
+
+    if (recipe > 0) {
+      return response.status(200).json({ id });
+    } else {
+      response
+        .status(404)
+        .json({ error: 'No recipe with this id can be found' });
+    }
+  } catch (error) {
+    response.status(500).json(error);
+  }
+});
 // get recipes based off of category DONE
 // get individual recipe?? DONE
 // post new recipe DONE
