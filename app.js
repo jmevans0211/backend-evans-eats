@@ -46,11 +46,11 @@ app.get('/api/v1/recipes/:id', async (request, response) => {
 })
 
 app.post('/api/v1/recipes/:id', async (request, response) => {
-  //id refers to the category id...?
+
   const recipe = request.body;
-  console.log('request.body---->', recipe)
   const parameters = [
     'recipe_name',
+    'category_id',
     'approx_time',
     'ingredients',
     'instructions',
@@ -70,21 +70,31 @@ app.post('/api/v1/recipes/:id', async (request, response) => {
   }
 
   try {
-    console.log('in TRY')
     const newRecipe = await database('recipes').insert(recipe, 'id');
-    console.log('newRecipe---->', newRecipe)
     response.status(201).json({ id: newRecipe[0] });
   } catch (error) {
-    console.log('in CATCH')
     response.status(500).json({ error: 'Internal server error' });
   }
-})
+});
 
+app.delete('/api/v1/recipe/:id', async (request, response) => {
+  const { id } = request.params;
 
-// get recipes based off of category
-// get individual recipe??
-// post new recipe
-// delete recipe
-// delete category
+  try {
+    const recipe = await database('recipes')
+      .where('id', id)
+      .del();
+
+    if (recipe > 0) {
+      return response.status(200).json({ id });
+    } else {
+      response
+        .status(404)
+        .json({ error: 'No recipe with this id can be found' });
+    }
+  } catch (error) {
+    response.status(500).json(error);
+  }
+});
 
 module.exports = app;
