@@ -48,9 +48,9 @@ app.get('/api/v1/recipes/:id', async (request, response) => {
 app.post('/api/v1/recipes/:id', async (request, response) => {
   //id refers to the category id...?
   const recipe = request.body;
-  console.log('request.body---->', recipe)
   const parameters = [
     'recipe_name',
+    'category_id',
     'approx_time',
     'ingredients',
     'instructions',
@@ -70,21 +70,17 @@ app.post('/api/v1/recipes/:id', async (request, response) => {
   }
 
   try {
-    console.log('in TRY')
     const newRecipe = await database('recipes').insert(recipe, 'id');
-    console.log('newRecipe---->', newRecipe)
     response.status(201).json({ id: newRecipe[0] });
   } catch (error) {
-    console.log('in CATCH')
     response.status(500).json({ error: 'Internal server error' });
   }
-})
+});
 
-
-// get recipes based off of category
-// get individual recipe??
-// post new recipe
+app.
+// get recipes based off of category DONE
+// get individual recipe?? DONE
+// post new recipe DONE
 // delete recipe
-// delete category
 
 module.exports = app;
