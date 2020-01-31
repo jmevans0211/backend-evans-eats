@@ -24,7 +24,7 @@ app.get('/api/v1/recipes', async (request, response) => {
   } catch (error) {
     response.status(500).json({error: '500 error'})
   }
-})
+});
 
 app.get('/api/v1/recipes/:id', async (request, response) => {
   const { id } = request.params;
@@ -43,7 +43,22 @@ app.get('/api/v1/recipes/:id', async (request, response) => {
   } catch (error) {
     response.status(500).json({ error: '500 error'})
   }
-})
+});
+
+app.get('/api/v1/recipe/:id', async (request, response) => {
+  const { id } = request.params;
+
+  try {
+    const recipe = await database('recipes').where({ id });
+    if (recipe.length) {
+      response.status(200).json(recipe);
+    } else {
+      response.status(404).json({ error: 'No recipe found' })
+    }
+  } catch (error) {
+    response.status(500).json({ error: 'Internal server error'})
+  }
+});
 
 app.post('/api/v1/recipes/:id', async (request, response) => {
 
