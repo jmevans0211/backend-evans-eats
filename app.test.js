@@ -124,4 +124,27 @@ describe('Server', () => {
       );
     });
   });
+
+  describe('DELETE /api/v1/recipe/:id', () => {
+    it('should return a 200 status code and remove the recipe from the category and the database', async () => {
+      const currentRecipes = await database('recipes').select();
+      const recipeToDelete = await database('recipes').first();
+
+      const response = await request(app).delete(
+        `/api/v1/recipe/${recipeToDelete.id}`
+      );
+      const updatedRecipes = await database('recipes').select();
+
+      expect(response.status).toBe(200);
+      expect(updatedRecipes.length).toBe(currentRecipes.length - 1);
+    });
+
+    it('should return a 404 status code and an error message when there is no recipe found', async () => {
+      const response = await request(app).delete('/api/v1/recipe/-1');
+      const expectedMessage = 'No recipe with this id can be found';
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe(expectedMessage);
+    });
+  });
 });
