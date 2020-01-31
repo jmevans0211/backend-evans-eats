@@ -103,23 +103,24 @@ describe('Server', () => {
       expect(recipe.recipe_name).toBe(newRecipe.recipe_name);
     });
 
-    it.skip('should return a 422 status code and an error message', async () => {
-      const selected = await database('projects').first();
+    it('should return a 422 status code and an error message', async () => {
+      const selected = await database('categories').first();
       const { id } = selected;
-      const incompletePalette = {
-        color_1: '#3D3935',
-        color_2: '#009DDC',
-        color_3: '#F26430',
-        color_4: '#F1F1F1',
-        color_5: '#009B72'
+      const incompleteRecipe = {
+        recipe_name: 'Tacos',
+        category_id: `${id}`,
+        approx_time: 'Taco time',
+        ingredients: 'Tortillas, chicken, pico',
+        notes: 'Best tacos ever',
+        image_url: 'image.jpeg',
       };
       const response = await request(app)
-        .post(`/api/v1/palettes/${id}`)
-        .send(incompletePalette);
+        .post(`/api/v1/recipes/${id}`)
+        .send(incompleteRecipe);
 
       expect(response.status).toBe(422);
       expect(response.body.error).toEqual(
-        'POST failed, missing required parameters: palette_name, project_id, color_1, color_2, color_3, color_4, color_5. Missing: palette_name'
+        'POST failed, missing required parameters: recipe_name, category_id, approx_time, ingredients, instructions, notes, image_url. Missing: instructions'
       );
     });
   });
