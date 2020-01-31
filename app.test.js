@@ -56,4 +56,26 @@ describe('Server', () => {
       expect(response.body.error).toBe('No recipes found for this category');
     });
   });
+
+  describe('GET /api/v1/recipe/:id', () => {
+    it('should return a 200 status code and the recipe with the matching id', async () => {
+      const expectedRecipe = await database('recipes').first();
+      const { id } = expectedRecipe;
+
+      const response = await request(app).get(`/api/v1/recipe/${id}`);
+      const recipe = response.body[0];
+
+      expect(response.status).toBe(200);
+      expect(recipe.recipe_name).toBe(expectedRecipe.recipe_name);
+    });
+
+    it('should return a 404 status code and the message `Recipe not found.`', async () => {
+      const invalidId = -1;
+
+      const response = await request(app).get(`/api/v1/recipe/${invalidId}`);
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toBe('Recipe not found');
+    });
+  });
 });

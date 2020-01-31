@@ -53,7 +53,7 @@ app.get('/api/v1/recipe/:id', async (request, response) => {
     if (recipe.length) {
       response.status(200).json(recipe);
     } else {
-      response.status(404).json({ error: 'No recipe found' })
+      response.status(404).json({ error: 'Recipe not found' })
     }
   } catch (error) {
     response.status(500).json({ error: 'Internal server error'})
