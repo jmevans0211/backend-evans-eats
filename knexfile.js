@@ -8,7 +8,7 @@ module.exports = {
     },
     seeds: {
       directory: './db/seeds/dev'
-    },
+    }
   },
   production: {
     client: 'pg',
@@ -18,7 +18,18 @@ module.exports = {
       directory: './db/migrations'
     },
     seeds: {
-      directory: './db/migrations/seeds/dev'
-    },
+      directory: './db/seeds/dev'
+    }
   },
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/evans-eats-official',
+    migrations: {
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds/test'
+    },
+    useNullAsDefault: true
+  }
 };
