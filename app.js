@@ -13,6 +13,19 @@ app.get('/', (request, response) => {
   response.json('Let us Eat!')
 });
 
+app.get('/api/v1/categories', async (request, response) => {
+  try {
+    const categories = await database('categories').select();
+    if (categories.length) {
+      response.status(200).json(categories)
+    } else {
+      response.status(404).json({error: '400 error!'})
+    }
+  } catch (error) {
+    response.status(500).json({error: '500 error'})
+  }
+});
+
 app.get('/api/v1/recipes', async (request, response) => {
   try {
     const recipes = await database('recipes').select();
